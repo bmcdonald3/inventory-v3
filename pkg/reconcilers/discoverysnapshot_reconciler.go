@@ -12,11 +12,9 @@ import (
 	"fmt"
 	"time"
 
-	// Import your project's resource types
-	"github.com/example/inventory-api/pkg/resources/device"
-	"github.com/example/inventory-api/pkg/resources/discoverysnapshot"
+	"github.com/example/inventory-v3/pkg/resources/device"
+	"github.com/example/inventory-v3/pkg/resources/discoverysnapshot"
 
-	// Import Fabrica packages
 	"github.com/openchami/fabrica/pkg/reconcile"
 	fabResource "github.com/openchami/fabrica/pkg/resource"
 )

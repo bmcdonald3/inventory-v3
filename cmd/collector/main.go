@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	// --- Make sure this import path matches your module ---
-	"github.com/example/inventory-api/pkg/collector"
+	"github.com/example/inventory-v3/pkg/collector"
 
 	"github.com/spf13/cobra"
 )

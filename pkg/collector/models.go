@@ -3,8 +3,7 @@ package collector
 import (
 	"net/http"
 
-	// --- Make sure this import path matches your module ---
-	"github.com/example/inventory-api/pkg/resources/device"
+	"github.com/example/inventory-v3/pkg/resources/device"
 )
 
 // --- Redfish Client Struct ---

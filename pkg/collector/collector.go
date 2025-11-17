@@ -14,10 +14,9 @@ import (
 	"strings"
 	"time"
 
-	// --- Make sure this import path matches your module ---
-	fabricaclient "github.com/example/inventory-api/pkg/client"
-	"github.com/example/inventory-api/pkg/resources/device"
-	"github.com/example/inventory-api/pkg/resources/discoverysnapshot"
+	fabricaclient "github.com/example/inventory-v3/pkg/client"
+	"github.com/example/inventory-v3/pkg/resources/device"
+	"github.com/example/inventory-v3/pkg/resources/discoverysnapshot"
 )
 
 // --- Configuration ---
