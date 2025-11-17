@@ -14,7 +14,6 @@ import (
 
 	"github.com/example/inventory-v3/pkg/resources/device"
 	"github.com/example/inventory-v3/pkg/resources/discoverysnapshot"
-	"github.com/openchami/fabrica/pkg/reconcile"
 	fabResource "github.com/openchami/fabrica/pkg/resource"
 )
 
