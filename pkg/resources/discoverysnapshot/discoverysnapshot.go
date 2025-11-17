@@ -7,6 +7,7 @@ package discoverysnapshot
 import (
 	"context"
 	"github.com/openchami/fabrica/pkg/resource"
+	"encoding/json"
 )
 
 // DiscoverySnapshot represents a DiscoverySnapshot resource
@@ -18,8 +19,9 @@ type DiscoverySnapshot struct {
 
 // DiscoverySnapshotSpec defines the desired state of DiscoverySnapshot
 type DiscoverySnapshotSpec struct {
-	Description string `json:"description,omitempty" validate:"max=200"`
-	// Add your spec fields here
+	// RawData holds the complete, raw JSON payload from a discovery tool (e.g., the collector).
+	// The reconciler will parse this.
+	RawData json.RawMessage `json:"rawData" validate:"required"`
 }
 
 // DiscoverySnapshotStatus defines the observed state of DiscoverySnapshot
@@ -27,7 +29,6 @@ type DiscoverySnapshotStatus struct {
 	Phase      string `json:"phase,omitempty"`
 	Message    string `json:"message,omitempty"`
 	Ready      bool   `json:"ready"`
-	// Add your status fields here
 }
 
 // Validate implements custom validation logic for DiscoverySnapshot
