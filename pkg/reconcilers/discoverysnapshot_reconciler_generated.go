@@ -14,9 +14,11 @@ package reconcilers
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"time"
 
-	"github.com/example/inventory-api/pkg/resources/discoverysnapshot"
+	"github.com/example/inventory-v3/pkg/resources/discoverysnapshot"
 	"github.com/openchami/fabrica/pkg/events"
 	"github.com/openchami/fabrica/pkg/reconcile"
 )
@@ -83,36 +85,55 @@ func (r *DiscoverySnapshotReconciler) GetResourceKind() string {
 //   - Result: Indicates if/when to requeue
 //   - error: If reconciliation failed
 func (r *DiscoverySnapshotReconciler) Reconcile(ctx context.Context, resource interface{}) (reconcile.Result, error) {
-	res := resource.(*discoverysnapshot.DiscoverySnapshot)
+	// 1. Assert to raw message
+	raw, ok := resource.(json.RawMessage)
+	if !ok {
+		err := fmt.Errorf("received resource is not json.RawMessage, but %T", resource)
+		r.Logger.Errorf(err.Error())
+		// Do not requeue, this is a poison pill
+		return reconcile.Result{}, nil
+	}
+
+	// 2. Unmarshal it into the correct type
+	var res discoverysnapshot.DiscoverySnapshot // This is the typed struct
+	if err := json.Unmarshal(raw, &res); err != nil {
+		err := fmt.Errorf("failed to unmarshal resource: %w", err)
+		r.Logger.Errorf(err.Error())
+		// Do not requeue, this is a poison pill
+		return reconcile.Result{}, nil
+	}
 
 	r.Logger.Debugf("Reconciling DiscoverySnapshot %s/%s", res.Kind, res.GetUID())
 
-	// Call custom reconciliation logic
-	if err := r.reconcileDiscoverySnapshot(ctx, res); err != nil {
+	// Call custom reconciliation logic (now passing &res)
+	if err := r.reconcileDiscoverySnapshot(ctx, &res); err != nil {
 		r.Logger.Errorf("Reconciliation failed for DiscoverySnapshot %s: %v", res.GetUID(), err)
 
 		// Set error condition
-		r.SetCondition(res, "Ready", "False", "ReconcileError", err.Error())
+		r.SetCondition(&res, "Ready", "False", "ReconcileError", err.Error())
 
 		// Requeue with backoff (30 seconds)
 		return reconcile.Result{Requeue: true, RequeueAfter: 30 * time.Second}, err
 	}
 
 	// Set success condition
-	r.SetCondition(res, "Ready", "True", "ReconcileSuccess", "Reconciliation successful")
+	r.SetCondition(&res, "Ready", "True", "ReconcileSuccess", "Reconciliation successful")
 
 	// Update status in storage
-	if err := r.UpdateStatus(ctx, res); err != nil {
+	if err := r.UpdateStatus(ctx, &res); err != nil {
 		r.Logger.Errorf("Failed to update status for DiscoverySnapshot %s: %v", res.GetUID(), err)
 		return reconcile.Result{Requeue: true, RequeueAfter: 10 * time.Second}, err
 	}
 
-	// Emit reconciliation event
-	eventType := "io.openchami.inventory.discoverysnapshots.reconciled"
-	if err := r.EmitEvent(ctx, eventType, res); err != nil {
-		r.Logger.Warnf("Failed to emit event for DiscoverySnapshot %s: %v", res.GetUID(), err)
-		// Don't fail reconciliation if event emission fails
-	}
+	// Comment out event emission to prevent infinite loop
+	/*
+		// Emit reconciliation event
+		eventType := "io.openchami.inventory.discoverysnapshots.reconciled"
+		if err := r.EmitEvent(ctx, &res, eventType); err != nil {
+			r.Logger.Warnf("Failed to emit event for DiscoverySnapshot %s: %v", res.GetUID(), err)
+			// Don't fail reconciliation if event emission fails
+		}
+	*/
 
 	// Requeue after 5 minutes for periodic reconciliation
 	return reconcile.Result{RequeueAfter: 5 * time.Minute}, nil

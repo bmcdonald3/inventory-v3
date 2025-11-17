@@ -9,7 +9,7 @@ package reconcilers
 import (
 	"context"
 
-	"github.com/example/inventory-api/pkg/resources/device"
+	"github.com/example/inventory-v3/pkg/resources/device"
 )
 
 // reconcileDevice contains custom reconciliation logic.

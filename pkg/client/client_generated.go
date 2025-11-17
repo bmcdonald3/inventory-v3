@@ -61,8 +61,8 @@ import (
 	"net/url"
 	"path"
 
-	"github.com/example/inventory-api/pkg/resources/device"
-	"github.com/example/inventory-api/pkg/resources/discoverysnapshot"
+	"github.com/example/inventory-v3/pkg/resources/device"
+	"github.com/example/inventory-v3/pkg/resources/discoverysnapshot"
 )
 
 // Client provides access to the inventory API

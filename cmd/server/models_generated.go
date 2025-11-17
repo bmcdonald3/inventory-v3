@@ -37,9 +37,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/example/inventory-api/pkg/resources/device"
+	"github.com/example/inventory-v3/pkg/resources/device"
 
-	"github.com/example/inventory-api/pkg/resources/discoverysnapshot"
+	"github.com/example/inventory-v3/pkg/resources/discoverysnapshot"
 )
 
 // DeviceResponse represents the response for Device operations

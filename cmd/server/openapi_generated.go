@@ -23,8 +23,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/example/inventory-api/pkg/resources/device"
-	"github.com/example/inventory-api/pkg/resources/discoverysnapshot"
+	"github.com/example/inventory-v3/pkg/resources/device"
+	"github.com/example/inventory-v3/pkg/resources/discoverysnapshot"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/getkin/kin-openapi/openapi3gen"
 )

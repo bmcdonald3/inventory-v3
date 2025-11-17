@@ -8,8 +8,8 @@ import (
 		"strings"
 
 	"github.com/openchami/fabrica/pkg/codegen"
-	"github.com/example/inventory-api/pkg/resources/device"
-	"github.com/example/inventory-api/pkg/resources/discoverysnapshot"
+	"github.com/example/inventory-v3/pkg/resources/device"
+	"github.com/example/inventory-v3/pkg/resources/discoverysnapshot"
 )
 
 // RegisterAllResources registers all discovered resources with the generator.

@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: MIT
 //
-// This file provides a Cobra-based CLI for the inventory_api API.
+// This file provides a Cobra-based CLI for the inventory_v3 API.
 // Generated from: pkg/codegen/templates/client-cmd.go.tmpl
 //
 // To modify the CLI:
@@ -17,16 +17,16 @@
 //
 // Global flags (available for all commands):
 //
-//	--server       Server URL (env: INVENTORY_API_SERVER)
-//	--timeout      Request timeout (env: INVENTORY_API_TIMEOUT)
-//	--output, -o   Output format: table, json, yaml (env: INVENTORY_API_OUTPUT)
-//	--version, -v  API version to request: v1, v2beta1, etc. (env: INVENTORY_API_VERSION)
-//	--config       Config file path (default: ~/.inventory_api-cli.yaml)
+//	--server       Server URL (env: INVENTORY_V3_SERVER)
+//	--timeout      Request timeout (env: INVENTORY_V3_TIMEOUT)
+//	--output, -o   Output format: table, json, yaml (env: INVENTORY_V3_OUTPUT)
+//	--version, -v  API version to request: v1, v2beta1, etc. (env: INVENTORY_V3_VERSION)
+//	--config       Config file path (default: ~/.inventory_v3-cli.yaml)
 //
 // Configuration sources (in order of precedence):
 //  1. Command-line flags
-//  2. Environment variables (INVENTORY_API_*)
-//  3. Config file (~/.inventory_api-cli.yaml)
+//  2. Environment variables (INVENTORY_V3_*)
+//  3. Config file (~/.inventory_v3-cli.yaml)
 //  4. Default values
 //
 // Usage examples:
@@ -47,8 +47,8 @@
 //	client device create --spec '{"name":"device-01","description":"Example Device"}'
 //
 //	# Use environment variables
-//	export INVENTORY_API_SERVER=https://inventory_api.example.com
-//	export INVENTORY_API_VERSION=v2beta1
+//	export INVENTORY_V3_SERVER=https://inventory_v3.example.com
+//	export INVENTORY_V3_VERSION=v2beta1
 //	client device list
 //
 // To add custom commands:
@@ -74,7 +74,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/example/inventory-api/pkg/client"
+	"github.com/example/inventory-v3/pkg/client"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -96,16 +96,16 @@ func main() {
 
 var rootCmd = &cobra.Command{
 	Use:   filepath.Base(os.Args[0]),
-	Short: "inventory_api CLI",
-	Long:  `A command-line interface for managing inventory_api resources.`,
+	Short: "inventory_v3 CLI",
+	Long:  `A command-line interface for managing inventory_v3 resources.`,
 }
 
 func init() {
 	cobra.OnInitialize(initConfig)
 
 	// Global flags
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.inventory_api-cli.yaml)")
-	rootCmd.PersistentFlags().StringVar(&serverURL, "server", "http://localhost:8080", "inventory_api server URL")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.inventory_v3-cli.yaml)")
+	rootCmd.PersistentFlags().StringVar(&serverURL, "server", "http://localhost:8080", "inventory_v3 server URL")
 	rootCmd.PersistentFlags().DurationVar(&timeout, "timeout", 30*time.Second, "request timeout")
 	rootCmd.PersistentFlags().StringVarP(&output, "output", "o", "table", "output format: table, json, yaml")
 	rootCmd.PersistentFlags().StringVarP(&apiVersion, "version", "v", "", "API version to request (e.g., v1, v2beta1)")
@@ -117,7 +117,7 @@ func init() {
 	viper.BindPFlag("version", rootCmd.PersistentFlags().Lookup("version"))
 
 	// Environment variable support
-	viper.SetEnvPrefix("INVENTORY_API")
+	viper.SetEnvPrefix("INVENTORY_V3")
 	viper.AutomaticEnv()
 
 	// Add resource commands
@@ -138,7 +138,7 @@ func initConfig() {
 
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
-		viper.SetConfigName(".inventory_api-cli")
+		viper.SetConfigName(".inventory_v3-cli")
 	}
 
 	if err := viper.ReadInConfig(); err == nil {
