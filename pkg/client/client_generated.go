@@ -22,7 +22,7 @@
 //   - DeleteResource(ctx, uid) - Delete resource
 //
 // Usage example:
-//   client, err := client.NewClient("http://localhost:8081", nil)
+//   client, err := client.NewClient("http://localhost:8080", nil)
 //   if err != nil {
 //       log.Fatal(err)
 //   }

@@ -105,7 +105,7 @@ func init() {
 
 	// Global flags
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.inventory_v3-cli.yaml)")
-	rootCmd.PersistentFlags().StringVar(&serverURL, "server", "http://localhost:8081", "inventory_v3 server URL")
+	rootCmd.PersistentFlags().StringVar(&serverURL, "server", "http://localhost:8080", "inventory_v3 server URL")
 	rootCmd.PersistentFlags().DurationVar(&timeout, "timeout", 30*time.Second, "request timeout")
 	rootCmd.PersistentFlags().StringVarP(&output, "output", "o", "table", "output format: table, json, yaml")
 	rootCmd.PersistentFlags().StringVarP(&apiVersion, "version", "v", "", "API version to request (e.g., v1, v2beta1)")
