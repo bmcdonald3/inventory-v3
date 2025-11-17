@@ -57,5 +57,3 @@ require (
 	golang.org/x/text v0.23.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
-
-replace github.com/openchami/fabrica v0.3.1 => /Users/ben.mcdonald/fabrica
